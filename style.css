@@ -1,0 +1,349 @@
+/* --- GLOBAL STYLES --- */
+:root {
+  --primary: #2e7d32;
+  --primary-hover: #1b5e20;
+  --bg: #f4f7f5;
+  --card-bg: #ffffff;
+  --text: #2c3e50;
+  --text-muted: #666;
+  --border: #e0e0e0;
+  
+  /* Status Colors */
+  --reuse-color: #2e7d32;
+  --repair-color: #f39c12;
+  --recycle-color: #c0392b;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+}
+
+/* --- HEADER & NAVIGATION --- */
+header {
+  background-color: var(--card-bg);
+  border-bottom: 2px solid var(--border);
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.logo-container h1 {
+  color: var(--primary);
+  font-size: 1.6rem;
+}
+
+.tagline {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+nav {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.nav-btn {
+  background: transparent;
+  border: none;
+  padding: 0.5rem 1rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text);
+  cursor: pointer;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+.nav-btn:hover {
+  background-color: #e8f5e9;
+  color: var(--primary);
+}
+
+.nav-btn.active {
+  background-color: var(--primary);
+  color: white;
+}
+
+/* --- CONTAINER & SECTIONS --- */
+.container {
+  max-width: 1000px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+
+.section {
+  display: none; /* Controlled by JavaScript */
+}
+
+.section.active {
+  display: block;
+}
+
+h2 {
+  color: var(--primary);
+  margin-bottom: 1rem;
+}
+
+/* --- CARDS & FORMS --- */
+.card, .form-card, .search-card {
+  background: var(--card-bg);
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+  border: 1px solid var(--border);
+  margin-bottom: 1.5rem;
+}
+
+.hero {
+  background-color: #e8f5e9;
+  padding: 2rem;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+}
+
+.info-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.form-group label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 0.3rem;
+}
+
+.form-group input, .form-group select {
+  width: 100%;
+  padding: 0.6rem;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+.btn-submit, .btn-search, .btn-update, .btn-danger {
+  background-color: var(--primary);
+  color: white;
+  border: none;
+  padding: 0.7rem 1.2rem;
+  font-size: 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.btn-submit:hover, .btn-search:hover, .btn-update:hover {
+  background-color: var(--primary-hover);
+}
+
+.btn-danger {
+  background-color: var(--recycle-color);
+}
+
+.btn-danger:hover {
+  background-color: #922b21;
+}
+
+/* --- SEARCH & TRACKING --- */
+.search-box {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.search-box input {
+  flex: 1;
+  padding: 0.6rem;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+}
+
+.timeline {
+  display: flex;
+  justify-content: space-between;
+  margin: 1.5rem 0;
+  position: relative;
+}
+
+.timeline-step {
+  background: #e0e0e0;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.timeline-step.active-step {
+  background: var(--primary);
+  color: white;
+}
+
+.status-update {
+  margin-top: 1rem;
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+/* --- BADGES & DECISIONS --- */
+.badge {
+  display: inline-block;
+  padding: 0.2rem 0.6rem;
+  border-radius: 4px;
+  color: white;
+  font-size: 0.8rem;
+  font-weight: bold;
+}
+
+.badge-REUSE { background-color: var(--reuse-color); }
+.badge-REPAIR { background-color: var(--repair-color); }
+.badge-RECYCLE { background-color: var(--recycle-color); }
+
+.hidden { display: none; }
+.error-msg { color: var(--recycle-color); font-weight: bold; }
+
+/* --- DASHBOARD --- */
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.metric-card {
+  background: var(--card-bg);
+  padding: 1.2rem;
+  border-radius: 8px;
+  text-align: center;
+  border-bottom: 4px solid var(--text-muted);
+}
+
+.metric-card.reuse { border-color: var(--reuse-color); }
+.metric-card.repair { border-color: var(--repair-color); }
+.metric-card.recycle { border-color: var(--recycle-color); }
+
+.metric-card h3 { font-size: 2rem; margin-top: 0.3rem; }
+
+/* --- CUSTOM BAR CHART --- */
+.chart-container {
+  background: var(--card-bg);
+  padding: 1.5rem;
+  border-radius: 8px;
+  margin-bottom: 2rem;
+  border: 1px solid var(--border);
+}
+
+.bar-chart {
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-end;
+  height: 150px;
+  padding-top: 1rem;
+  border-bottom: 2px solid var(--border);
+}
+
+.bar-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+  justify-content: flex-end;
+  width: 60px;
+}
+
+.bar {
+  width: 100%;
+  transition: height 0.4s ease;
+  border-radius: 4px 4px 0 0;
+}
+
+.reuse-bar { background-color: var(--reuse-color); }
+.repair-bar { background-color: var(--repair-color); }
+.recycle-bar { background-color: var(--recycle-color); }
+
+.bar-label { margin-top: 0.5rem; font-size: 0.85rem; font-weight: 600; }
+
+/* --- DATA TABLE --- */
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--card-bg);
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+
+.data-table th, .data-table td {
+  padding: 0.8rem;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.9rem;
+}
+
+.data-table th { background-color: #e8f5e9; }
+
+.btn-delete {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+/* --- GUIDE --- */
+.guide-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.2rem;
+}
+
+.guide-card {
+  background: var(--card-bg);
+  padding: 1.2rem;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+}
+
+.guide-card .icon { font-size: 2rem; }
+.guide-action { font-weight: bold; margin: 0.4rem 0; font-size: 0.9rem; }
+.reuse-text { color: var(--reuse-color); }
+.repair-text { color: var(--repair-color); }
+.recycle-text { color: var(--recycle-color); }
+
+/* --- FOOTER --- */
+footer {
+  text-align: center;
+  padding: 1.5rem;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  margin-top: 2rem;
+}
+
+/* --- RESPONSIVE MOBILE FIX --- */
+@media (max-width: 600px) {
+  header { flex-direction: column; text-align: center; }
+  .timeline { flex-direction: column; gap: 0.5rem; }
+  .data-table { display: block; overflow-x: auto; }
+}

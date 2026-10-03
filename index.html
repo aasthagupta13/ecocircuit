@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EcoCircuit | E-Waste Management</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Top Navigation Bar -->
+  <header>
+    <div class="logo-container">
+      <h1>🌱 EcoCircuit</h1>
+      <p class="tagline">Track • Reuse • Repair • Recycle</p>
+    </div>
+    <nav>
+      <button class="nav-btn active" onclick="showSection('home')">Home</button>
+      <button class="nav-btn" onclick="showSection('add-device')">Add Device</button>
+      <button class="nav-btn" onclick="showSection('track-device')">Track Device</button>
+      <button class="nav-btn" onclick="showSection('dashboard')">Dashboard</button>
+      <button class="nav-btn" onclick="showSection('guide')">E-Waste Guide</button>
+    </nav>
+  </header>
+
+  <main class="container">
+
+    <!-- 1. HOME SECTION -->
+    <section id="home" class="section active">
+      <div class="hero">
+        <h2>Smart E-Waste Management for the IT Industry</h2>
+        <p>Electronic waste is one of the fastest-growing environmental challenges globally. IT departments discard thousands of hardware assets each year. EcoCircuit helps systematically classify, track, and process e-waste to maximize reuse and minimize landfill impact.</p>
+      </div>
+
+      <div class="info-cards">
+        <div class="card">
+          <h3>♻️ Why E-Waste Tracking Matters</h3>
+          <p>Proper categorization keeps toxic heavy metals like lead and mercury out of soil and groundwater while recovering precious metals like gold, copper, and silver.</p>
+        </div>
+        <div class="card">
+          <h3>🔄 The 3R Approach</h3>
+          <p>We prioritize <strong>Reuse</strong> for low-age devices, <strong>Repair</strong> for minor issues, and <strong>Recycle</strong> for end-of-life hardware.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. ADD DEVICE SECTION -->
+    <section id="add-device" class="section">
+      <h2>Add New IT Device</h2>
+      <div class="form-card">
+        <form id="deviceForm" onsubmit="handleAddDevice(event)">
+          <div class="form-group">
+            <label for="deviceName">Device Name:</label>
+            <input type="text" id="deviceName" placeholder="e.g., Dell Latitude Laptop" required>
+          </div>
+
+          <div class="form-group">
+            <label for="deviceId">Device ID:</label>
+            <input type="text" id="deviceId" placeholder="e.g., LAP1024" required>
+          </div>
+
+          <div class="form-group">
+            <label for="department">Department:</label>
+            <select id="department" required>
+              <option value="IT Support">IT Support</option>
+              <option value="Software Engineering">Software Engineering</option>
+              <option value="Human Resources">Human Resources</option>
+              <option value="Finance">Finance</option>
+              <option value="Operations">Operations</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="condition">Condition (0% - 100%):</label>
+            <input type="number" id="condition" min="0" max="100" placeholder="e.g., 65" required>
+          </div>
+
+          <div class="form-group">
+            <label for="age">Age (in years):</label>
+            <input type="number" id="age" min="0" max="20" placeholder="e.g., 3" required>
+          </div>
+
+          <button type="submit" class="btn-submit">Calculate & Save Device</button>
+        </form>
+
+        <!-- Result Box after Adding -->
+        <div id="addResult" class="result-box hidden">
+          <h3>Result & Decision:</h3>
+          <p>Calculated Recommendation: <span id="resRecommendation" class="badge"></span></p>
+          <p>Status set to: <strong>In Use</strong></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. TRACK DEVICE SECTION -->
+    <section id="track-device" class="section">
+      <h2>Track Device Status</h2>
+      <div class="search-card">
+        <div class="search-box">
+          <input type="text" id="searchInput" placeholder="Enter Device ID (e.g., LAP1024)">
+          <button onclick="handleTrackSearch()" class="btn-search">Search</button>
+        </div>
+      </div>
+
+      <div id="trackResult" class="track-details hidden">
+        <div class="card">
+          <div class="device-header">
+            <h3 id="trackName">Device Name</h3>
+            <span id="trackRecBadge" class="badge">RECOMMENDATION</span>
+          </div>
+          <p><strong>ID:</strong> <span id="trackId"></span></p>
+          <p><strong>Department:</strong> <span id="trackDept"></span></p>
+          <p><strong>Condition:</strong> <span id="trackCond"></span>%</p>
+          <p><strong>Age:</strong> <span id="trackAge"></span> years</p>
+          
+          <hr>
+
+          <h4>Lifecycle Progress</h4>
+          <div class="timeline">
+            <div id="step-In Use" class="timeline-step">In Use</div>
+            <div id="step-Decommissioned" class="timeline-step">Decommissioned</div>
+            <div id="step-Collected" class="timeline-step">Collected</div>
+            <div id="step-Recycling" class="timeline-step">Recycling</div>
+          </div>
+
+          <div class="status-update">
+            <label for="statusSelect"><strong>Update Status:</strong></label>
+            <select id="statusSelect">
+              <option value="In Use">In Use</option>
+              <option value="Decommissioned">Decommissioned</option>
+              <option value="Collected">Collected</option>
+              <option value="Recycling">Recycling</option>
+            </select>
+            <button onclick="handleStatusUpdate()" class="btn-update">Save New Status</button>
+          </div>
+        </div>
+      </div>
+      <p id="trackError" class="error-msg hidden">No device found with that ID. Try searching again.</p>
+    </section>
+
+    <!-- 4. DASHBOARD SECTION -->
+    <section id="dashboard" class="section">
+      <div class="dashboard-header">
+        <h2>E-Waste Summary Dashboard</h2>
+        <button onclick="handleClearAll()" class="btn-danger">Clear All Data</button>
+      </div>
+
+      <!-- Stat Counters -->
+      <div class="metrics-grid">
+        <div class="metric-card">
+          <p class="metric-label">Total Devices</p>
+          <h3 id="statTotal">0</h3>
+        </div>
+        <div class="metric-card reuse">
+          <p class="metric-label">For Reuse</p>
+          <h3 id="statReuse">0</h3>
+        </div>
+        <div class="metric-card repair">
+          <p class="metric-label">For Repair</p>
+          <h3 id="statRepair">0</h3>
+        </div>
+        <div class="metric-card recycle">
+          <p class="metric-label">For Recycling</p>
+          <h3 id="statRecycle">0</h3>
+        </div>
+      </div>
+
+      <!-- Custom CSS Bar Graph -->
+      <div class="chart-container">
+        <h3>Distribution Chart</h3>
+        <div class="bar-chart">
+          <div class="bar-group">
+            <div id="barReuse" class="bar reuse-bar" style="height: 0%;"></div>
+            <span class="bar-label">Reuse</span>
+          </div>
+          <div class="bar-group">
+            <div id="barRepair" class="bar repair-bar" style="height: 0%;"></div>
+            <span class="bar-label">Repair</span>
+          </div>
+          <div class="bar-group">
+            <div id="barRecycle" class="bar recycle-bar" style="height: 0%;"></div>
+            <span class="bar-label">Recycle</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Device Table -->
+      <h3>Saved Inventory List</h3>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Dept</th>
+            <th>Condition</th>
+            <th>Age</th>
+            <th>Action Required</th>
+            <th>Status</th>
+            <th>Delete</th>
+          </tr>
+        </thead>
+        <tbody id="deviceTableBody">
+          <!-- Dynamically populated -->
+        </tbody>
+      </table>
+    </section>
+
+    <!-- 5. E-WASTE GUIDE SECTION -->
+    <section id="guide" class="section">
+      <h2>Item Disposal & Recycling Guide</h2>
+      <div class="guide-grid">
+        <div class="guide-card">
+          <div class="icon">💻</div>
+          <h3>Laptops</h3>
+          <p class="guide-action reuse-text">Preferred: Reuse or Repair</p>
+          <p>Laptops contain high-value components. Upgrading RAM or SSDs usually extends lifespan by 2-3 years before full recycling is needed.</p>
+        </div>
+
+        <div class="guide-card">
+          <div class="icon">🖥️</div>
+          <h3>Desktop PCs</h3>
+          <p class="guide-action repair-text">Preferred: Repair / Modular Upgrade</p>
+          <p>Desktops are highly modular. Individual dead parts (power supply, GPU) can be replaced while keeping 80% of the original machine intact.</p>
+        </div>
+
+        <div class="guide-card">
+          <div class="icon">📺</div>
+          <h3>Monitors</h3>
+          <p class="guide-action recycle-text">Preferred: Safe Recycling</p>
+          <p>Monitors contain hazardous circuit components and backlights. They must be handled by certified e-waste handlers to recover copper and glass safely.</p>
+        </div>
+
+        <div class="guide-card">
+          <div class="icon">⌨️</div>
+          <h3>Keyboards</h3>
+          <p class="guide-action reuse-text">Preferred: Clean & Reuse</p>
+          <p>Mechanical parts rarely break permanently. Deep cleaning or minor wire repairs usually keep keyboards out of waste streams entirely.</p>
+        </div>
+
+        <div class="guide-card">
+          <div class="icon">🖱️</div>
+          <h3>Mice</h3>
+          <p class="guide-action recycle-text">Preferred: Recycling</p>
+          <p>Because they are inexpensive and difficult to open without damage, non-functional mice should be recycled for plastics and wiring.</p>
+        </div>
+
+        <div class="guide-card">
+          <div class="icon">🖨️</div>
+          <h3>Printers</h3>
+          <p class="guide-action repair-text">Preferred: Repair</p>
+          <p>Printers usually fail due to ink clogs or roller jams. Mechanical servicing extends their corporate usage life substantially.</p>
+        </div>
+
+        <div class="guide-card">
+          <div class="icon">🔋</div>
+          <h3>Batteries</h3>
+          <p class="guide-action recycle-text">Preferred: Special Recycling</p>
+          <p><strong>Never place in regular waste.</strong> Lithium-ion cells can catch fire. They require isolated chemical extraction and recovery.</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <p>EcoCircuit &copy; 2026 | First-Year Environmental Studies Project</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
